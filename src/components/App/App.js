@@ -1,9 +1,7 @@
 import '../App/App.css';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 // import { connect } from 'react-redux';
-import shortid from 'shortid';
 
-import initialContact from '../../data/start-data.json';
 import ContactForm from '../ContactForm';
 import Filter from '../Filter';
 import ContactList from '../ContactList';

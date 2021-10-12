@@ -29,13 +29,13 @@ function Form(props) {
         const checkName = name.toLowerCase();
       if (props.value.items.some(item => item.name.toLowerCase() === `${checkName}`)) {
         alert(`${name} is already in contacts`);
+        //  reset();
         return;
       }
 
     // сразу отправляется в Глоб. Стейт-Redax state
     props.formSubmitHandler({ name, number });
     reset();
-   
   };
 
   const reset = () => {
@@ -74,21 +74,6 @@ function Form(props) {
         )
 }
 
-
-// const formSubmitHandler = ({ name, number }) => {
-  //   const cont = {
-  //     id: shortid.generate(),
-  //     name,
-  //     number,
-  //   };
-
-    // const checkName = cont.name.toLowerCase();
-    // if (contacts.some(item => item.name.toLowerCase() === `${checkName}`)) {
-    //   alert(`${cont.name} is already in contacts`);
-    //   return;
-    // }
-  //   setContacts([...contacts, cont]);
-  // };
 const mapStateToProps = state => {
   console.log('state',state);
   return {
@@ -98,13 +83,9 @@ const mapStateToProps = state => {
 
 
 const mapDispatchToProps = dispatch => {
-// console.log('props.state',props.state);
-// const checkName = cont.name.toLowerCase();
-//     if (contacts.some(item => item.name.toLowerCase() === `${checkName}`)) {
-//       alert(`${cont.name} is already in contacts`);
-
   return {
-    formSubmitHandler: (value) => dispatch(actionsContact.addContact(value))
+    formSubmitHandler: (value) => dispatch(actionsContact.addContact(value)),
+    HaHa: ()=> dispatch()
   }
   };
 
