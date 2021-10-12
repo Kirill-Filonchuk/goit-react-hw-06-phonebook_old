@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import actionsContact from '../../redux/contacts-actions';
 import s from './ContactForm.module.css'
   
-function Form (props) {
+function Form(props) {
+  //Этот стейт оставляю
   const [name, setName] = useState('');
   const [number, setNumber] = useState('')
     
@@ -15,13 +18,24 @@ function Form (props) {
     if (name === 'number') {
       setNumber(value)
     }   
-  };
-    
+ };
+  
+  console.log('props.value.items',props.value.items);
+  console.log('props', props);
+  
   const handleSubmit = e => {
     e.preventDefault();
-    
+  //
+        const checkName = name.toLowerCase();
+      if (props.value.items.some(item => item.name.toLowerCase() === `${checkName}`)) {
+        alert(`${name} is already in contacts`);
+        return;
+      }
+
+    // сразу отправляется в Глоб. Стейт-Redax state
     props.formSubmitHandler({ name, number });
     reset();
+   
   };
 
   const reset = () => {
@@ -60,7 +74,41 @@ function Form (props) {
         )
 }
 
-export default Form;
+
+// const formSubmitHandler = ({ name, number }) => {
+  //   const cont = {
+  //     id: shortid.generate(),
+  //     name,
+  //     number,
+  //   };
+
+    // const checkName = cont.name.toLowerCase();
+    // if (contacts.some(item => item.name.toLowerCase() === `${checkName}`)) {
+    //   alert(`${cont.name} is already in contacts`);
+    //   return;
+    // }
+  //   setContacts([...contacts, cont]);
+  // };
+const mapStateToProps = state => {
+  console.log('state',state);
+  return {
+    value: state.contacts,
+  }
+};
+
+
+const mapDispatchToProps = dispatch => {
+// console.log('props.state',props.state);
+// const checkName = cont.name.toLowerCase();
+//     if (contacts.some(item => item.name.toLowerCase() === `${checkName}`)) {
+//       alert(`${cont.name} is already in contacts`);
+
+  return {
+    formSubmitHandler: (value) => dispatch(actionsContact.addContact(value))
+  }
+  };
+
+export default connect(mapStateToProps,mapDispatchToProps)(Form);
 
 // class Form extends Component {
 //     state = {

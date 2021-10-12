@@ -1,76 +1,85 @@
 import '../App/App.css';
 import React, { useState, useEffect } from 'react';
+// import { connect } from 'react-redux';
 import shortid from 'shortid';
 
 import initialContact from '../../data/start-data.json';
 import ContactForm from '../ContactForm';
 import Filter from '../Filter';
 import ContactList from '../ContactList';
-
+// Вся информация забирается с локал стоража
 function App() {
-  const [contacts, setContacts] = useState(initialContact);
-  const [filter, setFilter] = useState('');
+  // const [contacts, setContacts] = useState(initialContact);
+  // const [filter, setFilter] = useState('');
 
-  useEffect(() => {
-    const contacts = localStorage.getItem('contacts');
-    const parsetContacts = JSON.parse(contacts);
+  // useEffect(() => {
+  //   const contacts = localStorage.getItem('contacts');
+  //   const parsetContacts = JSON.parse(contacts);
 
-    if (parsetContacts) {
-      setContacts([...parsetContacts]);
-    }
-  }, []);
+  //   if (parsetContacts) {
+  //     setContacts([...parsetContacts]);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+  // useEffect(() => {
+  //   localStorage.setItem('contacts', JSON.stringify(contacts));
+  // }, [contacts]);
 
-  const formSubmitHandler = ({ name, number }) => {
-    const cont = {
-      id: shortid.generate(),
-      name,
-      number,
-    };
+  // const formSubmitHandler = ({ name, number }) => {
+  //   const cont = {
+  //     id: shortid.generate(),
+  //     name,
+  //     number,
+  //   };
 
-    const checkName = cont.name.toLowerCase();
-    if (contacts.some(item => item.name.toLowerCase() === `${checkName}`)) {
-      alert(`${cont.name} is already in contacts`);
-      return;
-    }
-    setContacts([...contacts, cont]);
-  };
+  //   const checkName = cont.name.toLowerCase();
+  //   if (contacts.some(item => item.name.toLowerCase() === `${checkName}`)) {
+  //     alert(`${cont.name} is already in contacts`);
+  //     return;
+  //   }
+  //   setContacts([...contacts, cont]);
+  // };
 
-  const changeFilter = e => {
-    setFilter(e.currentTarget.value);
-  };
+  // const changeFilter = e => {
+  //   setFilter(e.currentTarget.value);
+  // };
 
-  const onDeleteCont = id => {
-    setContacts(() => contacts.filter(con => con.id !== id));
-  };
+  // const onDeleteCont = id => {
+  //   setContacts(() => contacts.filter(con => con.id !== id));
+  // };
   // filter создаёт НОВЫЙ массив, в который войдут только те элементы arr, для которых вызов callback(item, i, arr) возвратит true.
 
-  const visibleContact = () => {
-    const normalizedFilter = filter.toLowerCase();
-    const visibleContact = contacts.filter(con =>
-      con.name.toLowerCase().includes(normalizedFilter),
-    );
-    return visibleContact;
-  };
+  // const visibleContact = () => {
+  //   const normalizedFilter = filter.toLowerCase();
+  //   const visibleContact = contacts.filter(con =>
+  //     con.name.toLowerCase().includes(normalizedFilter),
+  //   );
+  //   return visibleContact;
+  // };
 
   return (
     <div className="container">
       <h1>Phonebook</h1>
-
-      <ContactForm formSubmitHandler={formSubmitHandler} />
+      {/* <ContactForm formSubmitHandler={formSubmitHandler} /> */}
+      <ContactForm />
 
       <h2>Contacts</h2>
-      <Filter value={filter} onChange={changeFilter} />
-
-      <ContactList visibleContact={visibleContact()} onDeleteCont={onDeleteCont} />
+      {/* <Filter value={filter} onChange={changeFilter} /> */}
+      <Filter />
+      {/* <ContactList visibleContact={visibleContact()} onDeleteCont={onDeleteCont} /> */}
+      <ContactList />
     </div>
   );
 }
 
 export default App;
+
+// const mapStateToProps = state => {
+//   return {
+//     value: state.contacts.items,
+//   }
+// }
+// export default connect(mapStateToProps)(App);
 
 // class App extends Component {
 //   state = {
