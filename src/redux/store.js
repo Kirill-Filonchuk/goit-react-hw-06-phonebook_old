@@ -1,16 +1,62 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+/* eslint-disable import/no-anonymous-default-export */
+import { configureStore, getDefaultMiddleware, combineReducers } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import contactsReducer from './contacts-reducer';
-const middleware = [...getDefaultMiddleware(), logger];
+
+const persistConfig = {
+  key: 'Contacts',
+  storage,
+};
+
+const middleware = [
+  ...getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
+  logger,
+];
+
+const rootReducer = combineReducers({
+  contacts: contactsReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const store = configureStore({
-  reducer: {
-    contacts: contactsReducer,
-  },
+  reducer: persistedReducer,
   middleware,
   devTools: process.env.NODE_ENV === 'development',
 });
 
-export default store;
+let persistor = persistStore(store); //обертка над СТОРЕМ в кот обновляет Локал Стор
+
+export default { store, persistor };
+
+// // BLACKLIST
+// const persistConfig = {
+//   key: 'root',
+//   storage: storage,
+//   blacklist: ['navigation'] // navigation will not be persisted
+// };
+
+// // WHITELIST
+// const persistConfig = {
+//   key: 'root',
+//   storage: storage,
+//   whitelist: ['navigation'] // only navigation will be persisted
+// };
 
 //Persis
 // const contacts = {
