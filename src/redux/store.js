@@ -1,51 +1,17 @@
-import { createStore, combineReducers } from 'redux';
-
-// import { persistStore, persistReducer } from 'redux-persist';
-// import storage from 'redux-persist/lib/storage'; // установлен по умолчанию в localStorage для веба
-
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import logger from 'redux-logger';
 import contactsReducer from './contacts-reducer';
-
-// const persistConfig = {
-//   key: 'root',
-//   storage,
-// };
-
-const saveToLocalStorag = state => {
-  try {
-    localStorage.setItem('state', JSON.stringify(state));
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-const loadFromLocalStorage = () => {
-  try {
-    const stateStr = localStorage.getItem('state');
-    return stateStr ? JSON.parse(stateStr) : undefined;
-  } catch (e) {
-    console.error(e);
-    return undefined;
-  }
-};
-
-const rootReducer = combineReducers({
-  contacts: contactsReducer,
+const middleware = [...getDefaultMiddleware(), logger];
+const store = configureStore({
+  reducer: {
+    contacts: contactsReducer,
+  },
+  middleware,
+  devTools: process.env.NODE_ENV === 'development',
 });
 
-const persistedStore = loadFromLocalStorage();
-
-//contactsReducer.items - массив контактов
-// const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const store = createStore(rootReducer, persistedStore, composeWithDevTools());
-
-store.subscribe(() => {
-  saveToLocalStorag(store.getState());
-});
-
-// eslint-disable-next-line import/no-anonymous-default-export
 export default store;
+
 //Persis
 // const contacts = {
 //     items: [],
