@@ -31,6 +31,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+
+
 /* was: this.state.contact */
 
 // const visibleContact = () => {

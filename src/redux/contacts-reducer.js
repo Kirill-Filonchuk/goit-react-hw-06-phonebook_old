@@ -4,7 +4,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import actions from './contacts-actions';
 import initialContact from '../data/start-data.json';
 
-console.log('actions.deleteContact.type', actions.deleteContact.type);
+// console.log('actions.deleteContact.type', actions.deleteContact.type);
 
 const items = createReducer([...initialContact], {
   [actions.addContact]: (state, action) => [...state, action.payload],

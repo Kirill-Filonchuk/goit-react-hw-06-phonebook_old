@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { configureStore, getDefaultMiddleware, combineReducers } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import {
   persistStore,
@@ -14,9 +14,10 @@ import {
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import contactsReducer from './contacts-reducer';
 
-const persistConfig = {
+const contactsPersistConfig = {
   key: 'Contacts',
   storage,
+  blacklist: ['filter'],
 };
 
 const middleware = [
@@ -28,17 +29,29 @@ const middleware = [
   logger,
 ];
 
-const rootReducer = combineReducers({
-  contacts: contactsReducer,
-});
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const rootReducer = combineReducers({
+//   contacts: persistReducer(persistConfig, contactsReducer),
+// });
 
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer: {
+    contacts: persistReducer(contactsPersistConfig, contactsReducer),
+  },
   middleware,
   devTools: process.env.NODE_ENV === 'development',
 });
+
+// const rootReducer = combineReducers({
+//   contacts: contactsReducer,
+// });
+
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// const store = configureStore({
+//   reducer: persistedReducer,
+//   middleware,
+//   devTools: process.env.NODE_ENV === 'development',
+// });
 
 let persistor = persistStore(store); //обертка над СТОРЕМ в кот обновляет Локал Стор
 

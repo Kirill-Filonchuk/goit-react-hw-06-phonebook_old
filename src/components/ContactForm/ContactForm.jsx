@@ -20,8 +20,8 @@ function Form(props) {
     }   
  };
   
-  console.log('props.value.items',props.value.items);
-  console.log('props', props);
+  // console.log('props.value.items',props.value.items);
+  // console.log('props', props);
   
   const handleSubmit = e => {
     e.preventDefault();
@@ -75,7 +75,7 @@ function Form(props) {
 }
 
 const mapStateToProps = state => {
-  console.log('state',state);
+  // console.log('state',state);
   return {
     value: state.contacts,
   }
@@ -85,7 +85,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     formSubmitHandler: (value) => dispatch(actionsContact.addContact(value)),
-    HaHa: ()=> dispatch()
   }
   };
 
